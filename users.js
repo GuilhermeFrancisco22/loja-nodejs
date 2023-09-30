@@ -29,7 +29,7 @@ class UserRepository {
         return JSON.parse(await fs.promises.readFile(this.filename))
     }
 
-    async creat(atributos) {
+    async create(atributos) {
         //add idao atributo recebido
         atributos.id = this.randomId()
         //Ler meu arquivo
@@ -40,13 +40,17 @@ class UserRepository {
         await this.writeAll(records)
     }
 
-    async writeAll(records) {
-        await fs.promises.writeFile(this.filename, JSON.stringify(records))
-
+    async update(atributos){
+        atributos.id = this.randomId()
     }
 
     randomId() {
         return crypto.randomBytes(4).toString('hex')
+    }
+
+    async writeAll(records) {
+        await fs.promises.writeFile(this.filename, JSON.stringify(records))
+
     }
 }
 //Teste dev
@@ -55,7 +59,7 @@ class UserRepository {
 
 const test = async () => {
     const repo = new UserRepository("users.json")
-    await repo.creat({ nome: "Gui", email: "gui@gmail.br" })
+    await repo.create({ nome: "Banana", email: "nanana@gmail.br" })
     const users = await repo.getAll()
     console.log(users)
 }
